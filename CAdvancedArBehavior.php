@@ -214,10 +214,11 @@ class CAdvancedArbehavior extends CActiveRecordBehavior
 	}
 
 	public function makeManyManyDeleteCommand($relation) {
-		return sprintf("delete from %s where %s = '%s'",
+		return sprintf("delete from %s where %s = '%s' AND %s IS NOT NULL",     // MODIFIED
 			$relation['m2mTable'],
 			$relation['m2mThisField'],
-			$this->owner->{$this->owner->tableSchema->primaryKey}
+			$this->owner->{$this->owner->tableSchema->primaryKey},
+			$relation['m2mForeignField']                                    // MODIFIED
 		);
 	}
 }
